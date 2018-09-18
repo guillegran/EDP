@@ -1,0 +1,239 @@
+%        File: edp.tex
+%     Created: lun sep 17 05:00  2018 C
+% Last Change: lun sep 17 05:00  2018 C
+%
+\documentclass[12pt,a4paper]{book}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish, es-noquoting]{babel}
+\usepackage[left=2.5cm,right=2.5cm,top=2.5cm,bottom=2.5cm]{geometry}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{mathtools}
+\usepackage{tikz,tikz-cd}
+\usetikzlibrary{arrows, babel}
+\usepackage{url}
+\usepackage[colorlinks=true,linktocpage=true,pagebackref=true,linkcolor=blue]{hyperref}
+\usepackage{graphicx}
+
+\DeclarePairedDelimiter\norm{\lVert}{\rVert}
+\DeclarePairedDelimiter\esc{\langle}{\rangle}
+
+%Fuente Palatino:
+%\usepackage[sc]{mathpazo}
+%Fuente Times:
+%\usepackage{newtxtext}
+%\usepackage{newtxmath}
+%Fuente Libertine:
+%\usepackage{libertine}
+%\usepackage[libertine]{newtxmath}
+
+\newtheorem{thm}{Teorema}[section]
+\newtheorem{prop}[thm]{Proposición}
+\newtheorem{lema}{Lema}
+\newtheorem{corol}[thm]{Corolario}
+\theoremstyle{definition} \newtheorem{defn}[thm]{Definición}
+\theoremstyle{definition} \newtheorem{ejemplo}[thm]{Ejemplo}
+\theoremstyle{definition} \newtheorem{ejercicio}[thm]{Ejercicio}
+\theoremstyle{remark} \newtheorem*{obs}{Observación}
+
+\newcommand{\RR}{\mathbb{R}}
+\newcommand{\NN}{\mathbb{N}}
+
+\title{Apuntes de Ecuaciones en Derivadas Parciales}
+\author{Guillermo Gallego Sánchez}
+\date{}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\chapter{Derivada débil y espacios de Sobolev}
+\begin{ejemplo}
+  Supongamos que se nos da un problema de contorno, como por ejemplo
+  \begin{equation}
+    \begin{cases}
+      -y''+2y=e^x+\cos x \\
+      y(0)=1, y(1)=2.
+    \end{cases}
+    \label{eq:ejemplo1}
+  \end{equation}
+  Es fácil definir lo que entendemos como una solución del problema~\eqref{eq:ejemplo1}: una función $y\in C^2([0,1])$ que cumpla la ecuación y los datos. Sin embargo, podemos cambiar la función a la derecha de la ecuación por otra con una forma más complicada, por ejemplo, que no sea continua, como
+  \begin{equation*}
+    f(x)=
+    \begin{cases}
+      1, & x \in [0,1/2) \\
+      0, & x \in [1/2,1).
+    \end{cases}
+  \end{equation*}
+  De modo que ahora queremos resolver el problema de contorno
+  \begin{equation}
+    \begin{cases}
+      -y''+2y=f(x) \\
+      y(0)=1, y(1)=2.
+    \end{cases}
+    \label{eq:ejemplo2}
+  \end{equation}
+  En este caso ya no podemos pedir que la solución sea $C^2$, en esta sección vamos a tratar de ver en qué espacios pueden vivir estas funciones que podemos entender como ``soluciones'' de problemas como el~\eqref{eq:ejemplo2}. 
+
+  En primer lugar, vamos a cambiar ligeramente el aspecto de nuestra ecuación. Para ello consideramos una función $\varphi$ en $[0,1]$, con $\varphi(0)=\varphi(1)=0$ tan buena como queramos, por ejemplo $\varphi\in C^{\infty}([0,1])$ y la multiplicamos por la ecuación
+  \begin{equation*}
+    -y''\varphi + 2y \varphi = f \varphi.
+  \end{equation*}
+  Integramos a ambos lados y obtenemos
+  \begin{equation*}
+    -\int_0^1 y'' \varphi + \int_0^1 2y \varphi = \int_0^1 f \varphi.
+  \end{equation*}
+  Integrando por partes
+  \begin{equation*}
+    \int_0^1 y' \varphi' + 2 \int_0^1 y \varphi = \int_0^1 f \varphi.
+  \end{equation*}
+  Buscaremos entonces qué funciones $y$ pueden hacer que estas integrales tengan sentido. Los espacios en los que viven estas $y$ serán los que llamaremos \emph{espacios de Sobolev}. \qed
+\end{ejemplo}
+
+\section{Repaso de espacios $L^p$}
+
+A partir de ahora, $\Omega\subset \RR^n$ será un conjunto abierto.
+\begin{defn}
+  Dado $p\geq 1$, se llama \emph{espacio $L^p$} en $\Omega$ al conjunto
+  \begin{equation*}
+    L^p(\Omega)=\left\{ f:U\rightarrow \RR \text{ medibles} : \int_{\Omega} |f|^2 < \infty \right\}.
+  \end{equation*}
+  Se define la \emph{norma-$p$} de una función $f\in L^p(\Omega)$ como el número
+  \begin{equation*}
+    \norm{f}_{p}=\left( \int_{\Omega}|f|^p \right)^{1/p}.   
+  \end{equation*}
+\end{defn}
+
+\begin{prop}[Desigualdad de Hölder]
+  Sean $p,q$ tales que 
+  \begin{equation*}
+    \frac{1}{p}+\frac{1}{q}=1
+  \end{equation*}
+  y sean
+  $f\in L^p(\Omega)$ y $g\in L^p(\Omega)$. Entonces se verifica la siguiente desigualdad
+  \begin{equation*}
+    \int_{\Omega}|f| |g| \leq \norm{f}_p \norm{g}_q.
+  \end{equation*}
+\end{prop}
+
+\begin{proof}
+  Para probar la desigualdad de Hölder haremos uso del siguiente lema:
+  \begin{lema}\label{desigualdad}
+    Sean $a\geq b \geq 0$, y $\lambda \in (0,1)$. Se verifica la siguiente desigualdad
+    \begin{equation*}
+      a^\lambda b^{1-\lambda} \leq \lambda a + (1-\lambda) b.
+    \end{equation*}
+  \end{lema}
+
+  \begin{proof}(del Lema~\ref{desigualdad})
+    Si $a=0$ ó $b=0$, entonces el resultado es trivial. Supongamos entonces que $a,b > 0$. En tal caso, podemos considerar $x=a/b$ y queremos probar la desigualdad
+    \begin{equation*}
+      x^{\lambda} \leq \lambda x + (1-\lambda).
+    \end{equation*}
+    Para verlo, consideremos la función 
+    \begin{equation*}
+      g(x)=x^{\lambda}-\lambda x - (1-\lambda).
+    \end{equation*}
+    Si tomamos su derivada, tenemos
+    \begin{equation*}
+      g'(x)=\lambda (x^{\lambda -1}-1).
+    \end{equation*}
+
+    Ahora, si $a \geq b$, tenemos que $x\geq 1$ y, como $\lambda\in (0,1)$, $\lambda -1 \leq 0$ y $x^{\lambda -1}\leq 1$. Por tanto, $g'(x)<0$, y, como $g(1)=0$; para todo $x\geq 1$, $g(x)\leq 0$.
+  \end{proof}
+
+  Volviendo a la demostración de la desigualdad de Hölder, llamemos $a=|f|^p/\norm{f}_p^p$ y $b=|g|^q/\norm{g}_q^q$. Supongamos sin pérdida de generalidad que $a \geq b$ y llamemos $\lambda = 1/p$, de modo que $1-\lambda=1/q$. Tenemos entonces, aplicando el lema
+  \begin{equation*}
+    \left( \frac{|f|^p}{\norm{f}_p^p} \right)^{1/p} \left( \frac{|g|^q}{\norm{g}^q_q} \right)^{1/q}\leq\frac{1}{p}\frac{|f|^p}{\norm{f}_p^p}+\frac{1}{q}\frac{|f|^q}{\norm{f}_q^q}.
+  \end{equation*}
+  Integrando todo en $\Omega$, queda
+  \begin{equation*}
+    \int_{\Omega}\frac{|f||g|}{\norm{f}_p \norm{g}_q}\leq\frac{1}{p}\int_\Omega \frac{|f|^p}{\norm{f}_p^p}+\frac{1}{q}\int_\Omega \frac{|f|^q}{\norm{f}_q^q}=\frac{1}{p}+\frac{1}{q}=1.
+  \end{equation*}
+  Por tanto
+  \begin{equation*}
+    \int_\Omega |f||g| \leq \norm{f}_p \norm{g}_q,
+  \end{equation*}
+  tal y como queríamos probar.
+\end{proof}
+
+\begin{prop}
+  El espacio $L^p(\Omega)$ equipado con la norma-$p$ es un espacio normado.
+\end{prop}
+\begin{proof}
+  Lo único no trivial que hay que demostrar es la desigualdad triangular, esto es
+  \begin{equation*}
+    \norm{f+g}_p \leq \norm{f}_p + \norm{g}_p.
+  \end{equation*}
+  Veámosla
+  \begin{align*}
+    \norm{f+g}_p^p &= \int_\Omega |f+g|^p = \int_\Omega |f+g||f+g|^{p-1} \leq \int_\Omega (|f|+|g|) |f+g|^{p-1} \\ & = \int_\Omega |f| |f+g|^{p-1} + \int_\Omega |g| |f+g|^{p-1} \leq \norm{f}_p \norm{|f+g|^{p-1}}_q +\norm{g}_p \norm{|f+g|^{p-1}}_q
+  \end{align*}
+  Donde $q$ es el necesario para que se cumpla la desigualdad de Hölder, es decir, 
+  \begin{equation*}
+    \frac{1}{q}+\frac{1}{p}=1.
+  \end{equation*}
+  Despejando $q$, tenemos que vale precisamente $q=p/(p-1)$.
+
+  Pero entonces
+  \begin{equation*}
+    \norm{|f+g|^{p-1}}_q=\left( \int_\Omega (|f+g|^{p-1})^q \right)^{1/q}=\left( \int_\Omega (|f+g|^p) \right)^{(p-1)/p}=\norm{f+g}_p^{p-1}.
+  \end{equation*}
+  
+  Por tanto,
+  \begin{equation*}
+    \norm{f+g}_p^p \leq \norm{f+g}_p^{p-1}(\norm{f}_p + \norm{g}_p).
+  \end{equation*}
+  Dividiendo a ambos lados por $\norm{f+g}_p^{p-1}$ tenemos lo que se quería probar.
+\end{proof}
+
+Que los espacios $L^p$ sean normados me va a permitir hablar de convergencia de funciones en $L^p$. Así, si $(f_n)$ es una sucesión en $L^p$ y $f\in L^p$, diremos que la sucesión $(f_n)$ \emph{converge a $f$ en $L^p$} y se denota
+\begin{equation*}
+  f_n \rightarrow f \ L^p
+\end{equation*}
+si y sólo si $\lim_{n\rightarrow \infty} \norm{f_n-f}_p=0$.
+
+Nos interesará ahora recordar ciertos resultados de teoría de la medida que nos relacionen integrales y convergencias y que nos serán útiles más adelante. Pasamos a enunciarlos a continuación, sin demostración.
+\begin{thm}[Teorema de la convergencia monótona]
+  Sea una sucesión $(f_n)$ de funciones $f_n \in L^1$ tales que
+  \begin{equation*}
+    f_1 \leq f_2 \leq \cdots f_n \leq f_{n+1} \leq \cdots.
+  \end{equation*}
+  Entonces 
+  \begin{equation*}
+    \int_\Omega \lim_{n\rightarrow \infty } |f_n| = \lim_{n\rightarrow \infty} \int_\Omega |f_n|.
+  \end{equation*}
+\end{thm}
+
+\begin{thm}[Teorema de la convergencia dominada]
+  Sea una sucesión $(f_n)$ de funciones $f_n \in L^1$ tales que existe una función $g\in L^1$ tal que $|f_n|\leq g $ para cada $n\in \NN$ y existe una función $f$ tal que $f_n \rightarrow f$ en casi todo punto. Entonces
+  \begin{equation*}
+    \lim_{n\rightarrow \infty} \int_\Omega |f_n| = \int_\Omega |f|.
+  \end{equation*}
+\end{thm}
+
+\begin{thm}[Lema de Fatou]
+  Sea una sucesión $(f_n)$ de funciones $f_n \in L^1$ tales que $f_n \geq 0$ para cada $n\in \NN$. Entonces 
+  \begin{equation*}
+  \int_\Omega \liminf_{n\rightarrow \infty} |f_n| \leq  \liminf_{n\rightarrow \infty}\int_\Omega  |f_n|. 
+  \end{equation*}
+\end{thm}
+
+Haciendo uso de alguno de estos resultados, vamos a ver que los espacios $L^p$, con sus respectivas normas-$p$, son completos.
+
+\begin{prop}
+  El espacio $L^p(\Omega)$ es de Banach. Además, si $p=2$, podemos definir el producto
+  \begin{equation*}
+    \esc{u,v}=\int_{\Omega}uv,
+  \end{equation*}
+  que dota a $L^2(\Omega)$ de la estructura de espacio de Hilbert.
+\end{prop}
+\begin{proof}
+  Supongamos que $(f_n)$ es una sucesión de Cauchy en $L^p$. Sin pérdida de generalidad, podemos tomar una subsucesión tal que $\norm{f_{n+1}-f_n}_p\leq 2^{-n}$. Tenemos que encontrar una función $f\in L^p$
+\end{proof}
+  
+
+\end{document}
+
+
