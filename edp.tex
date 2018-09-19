@@ -40,6 +40,8 @@
 
 \newcommand{\RR}{\mathbb{R}}
 \newcommand{\NN}{\mathbb{N}}
+\newcommand{\cte}{\mathrm{cte.}}
+\newcommand{\eps}{\varepsilon}
 
 \title{Apuntes de Ecuaciones en Derivadas Parciales}
 \author{Guillermo Gallego Sánchez}
@@ -49,7 +51,7 @@
 \maketitle
 \tableofcontents
 \chapter{Derivada débil y espacios de Sobolev}
-\begin{ejemplo}
+\begin{ejemplo}\label{ejemplo1}
   Supongamos que se nos da un problema de contorno, como por ejemplo
   \begin{equation}
     \begin{cases}
@@ -93,11 +95,11 @@
 
 \section{Repaso de espacios $L^p$}
 
-A partir de ahora, $\Omega\subset \RR^n$ será un conjunto abierto.
+A partir de ahora, $\Omega\subset \RR^N$ será un conjunto abierto y conexo, es decir, un dominio.
 \begin{defn}
   Dado $p\geq 1$, se llama \emph{espacio $L^p$} en $\Omega$ al conjunto
   \begin{equation*}
-    L^p(\Omega)=\left\{ f:U\rightarrow \RR \text{ medibles} : \int_{\Omega} |f|^2 < \infty \right\}.
+    L^p(\Omega)=\left\{ f:U\rightarrow \RR \text{ medibles} : \int_{\Omega} |f|^p < \infty \right\}.
   \end{equation*}
   Se define la \emph{norma-$p$} de una función $f\in L^p(\Omega)$ como el número
   \begin{equation*}
@@ -159,6 +161,34 @@ A partir de ahora, $\Omega\subset \RR^n$ será un conjunto abierto.
 \end{proof}
 
 \begin{prop}
+  Si $\Omega$ es acotado, entonces se tienen las siguientes inclusiones
+  \begin{equation*}
+    L^1(\Omega) \supset L^2(\Omega) \supset L^3(\Omega) \supset \cdots \supset L^{p-1}(\Omega) \supset L^{p}(\Omega) \supset L^{p+1}(\Omega) \supset \cdots
+  \end{equation*}
+\end{prop}
+
+\begin{proof}
+  En efecto, si $1\leq p < q$, por la desigualdad de Hölder
+  \begin{equation*}
+    \int_{\Omega} |f|^p=\int_{\Omega} |f^p| = \int_{\Omega} |f^p| |\chi_\Omega| \leq \norm{f^p}_q \norm{\chi_\Omega}_r,
+  \end{equation*}
+  con $r$ tal que
+  \begin{equation*}
+    \frac{1}{q}+\frac{1}{r}=1.
+  \end{equation*}
+
+  Por tanto, 
+  \begin{equation*}
+    \norm{f}_p^p=\int_{\Omega} |f|^p\leq \norm{f^p}_q \norm{\chi_\Omega}_r =\norm{f}_q^p \mu(\Omega)^{1/r}.
+  \end{equation*}
+  Luego
+  \begin{equation*}
+    \norm{f}_p \leq \cte \norm{f}_q.
+  \end{equation*}
+  
+\end{proof}
+
+\begin{prop}
   El espacio $L^p(\Omega)$ equipado con la norma-$p$ es un espacio normado.
 \end{prop}
 \begin{proof}
@@ -188,7 +218,7 @@ A partir de ahora, $\Omega\subset \RR^n$ será un conjunto abierto.
   Dividiendo a ambos lados por $\norm{f+g}_p^{p-1}$ tenemos lo que se quería probar.
 \end{proof}
 
-Que los espacios $L^p$ sean normados me va a permitir hablar de convergencia de funciones en $L^p$. Así, si $(f_n)$ es una sucesión en $L^p$ y $f\in L^p$, diremos que la sucesión $(f_n)$ \emph{converge a $f$ en $L^p$} y se denota
+Que los espacios $L^p$ sean normados me va a permitir hablar de convergencia de funciones en $L^p$. Así, si $(f_n)$ es una sucesión en $L^p(\Omega)$ y $f\in L^p(\Omega)$, diremos que la sucesión $(f_n)$ \emph{converge a $f$ en $L^p$} y se denota
 \begin{equation*}
   f_n \rightarrow f \ L^p
 \end{equation*}
@@ -196,7 +226,7 @@ si y sólo si $\lim_{n\rightarrow \infty} \norm{f_n-f}_p=0$.
 
 Nos interesará ahora recordar ciertos resultados de teoría de la medida que nos relacionen integrales y convergencias y que nos serán útiles más adelante. Pasamos a enunciarlos a continuación, sin demostración.
 \begin{thm}[Teorema de la convergencia monótona]
-  Sea una sucesión $(f_n)$ de funciones $f_n \in L^1$ tales que
+  Sea una sucesión $(f_n)$ de funciones $f_n \in L^1(\Omega)$ tales que
   \begin{equation*}
     f_1 \leq f_2 \leq \cdots f_n \leq f_{n+1} \leq \cdots.
   \end{equation*}
@@ -207,7 +237,7 @@ Nos interesará ahora recordar ciertos resultados de teoría de la medida que no
 \end{thm}
 
 \begin{thm}[Teorema de la convergencia dominada]
-  Sea una sucesión $(f_n)$ de funciones $f_n \in L^1$ tales que existe una función $g\in L^1$ tal que $|f_n|\leq g $ para cada $n\in \NN$ y existe una función $f$ tal que $f_n \rightarrow f$ en casi todo punto. Entonces
+  Sea una sucesión $(f_n)$ de funciones $f_n \in L^1(\Omega)$ tales que existe una función $g\in L^1$ tal que $|f_n|\leq g $ para cada $n\in \NN$ y existe una función $f$ tal que $f_n \rightarrow f$ en casi todo punto. Entonces
   \begin{equation*}
     \lim_{n\rightarrow \infty} \int_\Omega |f_n| = \int_\Omega |f|.
   \end{equation*}
@@ -230,10 +260,251 @@ Haciendo uso de alguno de estos resultados, vamos a ver que los espacios $L^p$, 
   que dota a $L^2(\Omega)$ de la estructura de espacio de Hilbert.
 \end{prop}
 \begin{proof}
-  Supongamos que $(f_n)$ es una sucesión de Cauchy en $L^p$. Sin pérdida de generalidad, podemos tomar una subsucesión tal que $\norm{f_{n+1}-f_n}_p\leq 2^{-n}$. Tenemos que encontrar una función $f\in L^p$
-\end{proof}
-  
+  Supongamos que $(f_n)$ es una sucesión de Cauchy en $L^p$. Sin pérdida de generalidad, podemos tomar una subsucesión tal que $\norm{f_{n+1}-f_n}_p\leq 2^{-n}$. Tenemos que encontrar una función $f\in L^p$ tal que $\lim_{n\rightarrow \infty} \norm{f_n-f}_p=0$. 
 
+  Considero entonces la sucesión de funciones $(g_n)$, con
+  \begin{equation*}
+    g_n = |f_1|+|f_2-f_1|+|f_3-f_2|+\cdots+ |f_n-f_{n-1}|.
+  \end{equation*}
+  Esta sucesión es claramente monótona creciente. Además,
+  \begin{equation*}
+    \norm{g_n}_p\leq \norm{f_1}_p + \sum_{i=1}^{n-1}\norm{f_{i+1}-f_i}_p \leq \norm{f_1}_p + \sum_{i=1}^{\infty}\norm{f_{i+1}-f_i}_p \leq \norm{f_1}_p \sum_{i=1}^{\infty}2^{-i}= \cte
+  \end{equation*}
+  De modo que las $g_n \in L^p(\Omega)$. Pero entonces las $g_n^p \in L^1(\Omega)$, ya que 
+ \begin{equation*}
+ \int_\Omega |g_n^p| \leq \int_\Omega |g_n|^p \leq \infty.   
+  \end{equation*}
+  Podemos aplicar entonces el teorema de la convergencia monótona para obtener que
+  \begin{equation*}
+    \int_{\Omega} \lim_{n\rightarrow \infty} |g_n|^p=\int_{\Omega} \lim_{n\rightarrow \infty} |g_n^p| = \lim_{n\rightarrow \infty} \int_{\Omega} |g_n^p|= \lim_{n\rightarrow \infty} \int_{\Omega} |g_n|^p.
+  \end{equation*}
+  Tenemos entonces que si $g=\lim_{n\rightarrow \infty}g_n$, 
+  \begin{equation*}
+    \lim_{n\rightarrow \infty} \norm{g_n-g}_p = 0,
+  \end{equation*}
+o, lo que es lo mismo
+\begin{equation*}
+  g_n \rightarrow g \ L^p.
+\end{equation*}
+
+Para ver que $(f_n)$ converge en $L^p$, podemos usar que la sucesión es de Cauchy para observar que entonces debe converger puntualmente a una función $f$ en casi todo punto. Además,
+\begin{equation*}
+  |f_n|=|f_1|+\sum_{i=1}^n(|f_{i+1}|-|f_i|) \leq |f_1| + \sum_{i=1}^n |f_{i+1}-f_i| = g_n \leq g.
+\end{equation*}
+Ahora, como elevar a $p$ es continuo, tenemos que $|f_n^p | \leq g^p \in L^1(\Omega)$ y que $f_n^p \rightarrow f^p$ en casi todo punto. Por tanto, $|f_n-f|^p\leq 2 |g|^p$ y $f_n^p-f^p \rightarrow 0$ en casi todo punto. Aplicando el teorema de la convergencia dominada, tenemos que
+  \begin{equation*}
+    \lim_{n\rightarrow \infty} \int_{\Omega} |f_n-f|^p= 0.
+  \end{equation*}
+  Luego
+  \begin{equation*}
+    \lim_{n\rightarrow \infty}\norm{f_n-f}_p = 0,
+  \end{equation*}
+  o, lo que es lo mismo
+  \begin{equation*}
+    f_n \rightarrow f \ L^p.
+  \end{equation*}
+\end{proof}
+
+En lo que sigue, haremos bastante uso del siguiente teorema, que no demostraremos:
+\begin{prop}\label{densidad1}
+  El conjunto $C_c(\Omega)$ de las funciones continuas con soporte compacto en $\Omega$ es denso en $L^p(\Omega)$.
+\end{prop}
+
+\begin{prop}\label{integralnula}
+  Sea $f\in L^1(\Omega)$. Si 
+  \begin{equation*}
+    \int_\Omega f \varphi =0,
+  \end{equation*}
+  para toda $\varphi\in C_c(\Omega)$, entonces $f(x)=0$ para casi todo $x\in \Omega$.
+\end{prop}
+
+\begin{obs}
+  Nótese que el hecho de que una sucesión $(f_n)$ converga una función $f$ en casi todo punto no implica que lo haga en $L^p(\Omega)$. Por ejemplo podemos tomar la sucesión 
+  \begin{equation*}
+    f_n=\frac{1}{n}\chi_{[0,n]}.
+  \end{equation*}
+  Esta sucesión converge a $0$ en casi todo punto, pero $\norm{f_n}_p=1$ para todo $n\in \NN$.
+\end{obs}
+  
+\begin{proof}
+  Si $f$ es continua, el resultado es fácil. Si hay algún punto $x_0 \in \Omega$ tal que $|f(x_0)| > 0$, entonces existe un $\varepsilon >0$ tal que $|f(x)|>0$ para todo $x\in B_{\varepsilon}(x_0)$. Basta tomar entonces una función $\varphi$ que valga $1$ en $B_{\varepsilon/2}(x_0)$ y $0$ fuera de $B_{\varepsilon}(x_0)$, de modo que 
+  \begin{equation*}
+    \left|\int_\Omega f \varphi\right| = \left|\int_{B_{\varepsilon/2}(x_0)}f\right| > 0.
+  \end{equation*}
+
+  En el caso general, en que $f$ puede no ser continua, vamos a usar la Proposición~\ref{densidad1}. Sea $\eps>0$. Sé que existe una sucesión $(f_n)$ de funciones $f_n \in C_c(\Omega)$ tal que $f_n \rightarrow f \ L_1$, es decir, tal que existe un $n_0 \in \NN$ de modo que si $n\geq n_0$ entonces $\norm{f_n-f}_1 < \eps$. Ahora, para cualquier $\varphi \in C_c(\Omega)$, se tiene
+  \begin{equation*}
+    \int_{\Omega} f_n \varphi = \int_{\Omega} (f_n-f) \varphi + \int_{\Omega} f \varphi = \int_{\Omega} (f_n-f) \varphi,
+  \end{equation*}
+  ya que $\int_{\Omega} f \varphi = 0$ por hipótesis. Ahora, si aplico la desigualdad de Hölder, 
+  \begin{equation*}
+    \int_{\Omega} f_n \varphi=\int_{\Omega} (f_n-f) \varphi \leq \norm{f_n-f}_1 \norm{\varphi}_{\infty} < \norm{\varphi}_{\infty} \eps.
+  \end{equation*}
+
+  Defino entonces los conjuntos
+  \begin{align*}
+    K_1 & = \left\{ x\in \Omega | f(x) \geq \eps \right\}, \\
+    K_2 & = \left\{ x\in \Omega | f(x) \leq -\eps \right\},
+  \end{align*}
+  y llamo $K=K_1 \cup K_2$. Tomo además una función $\varphi \in C_c(\Omega)$ que valga $1$ en $K_1$ y $-1$ en $K_2$. Entonces
+  \begin{equation*}
+    \int_{\Omega} f_n \varphi = \int_K f_n \varphi + \int_{\Omega-K} f_n \varphi = \int_K |f_n| + \int_{\Omega-K} f_n \varphi.
+  \end{equation*}
+  Recordemos además que $\int_\Omega f_n \varphi \leq \norm{\varphi}_{\infty} \eps$. Tenemos entonces
+  \begin{equation*}
+    \int_K |f_n| \leq \norm{\varphi}_{\infty} \eps - \int_{\Omega-K}f_n\varphi\leq \norm{\varphi}_{\infty} \eps + \eps \norm{\varphi}_{\infty} \mu(\Omega-K) \leq \cte \eps.
+  \end{equation*}
+  Por tanto,
+  \begin{equation*}
+    \int_\Omega |f_n| \leq \int_K |f_n| + \int_{\Omega-K}|f_n| \leq \cte \eps + \eps \mu(\Omega-K) = \cte \eps.
+  \end{equation*}
+
+  De aquí concluimos que 
+  \begin{equation*}
+    \lim_{n\rightarrow \infty} \int_\Omega |f_n| = 0.
+  \end{equation*}
+  Usando el lema de Fatou, obtenemos 
+  \begin{equation*}
+    \int_\Omega |f| =0,
+  \end{equation*}
+  que implica que $f$ es nula en casi todo punto de $\Omega$, tal y como queríamos probar.
+\end{proof}
+
+\section{Derivada débil y espacios de Sobolev}
+\begin{ejemplo}
+  Volvamos al caso del Ejemplo~\ref{ejemplo1}. Habíamos llegado a la conclusión de que podíamos entender como una solución de nuestro problema de contorno~\eqref{eq:ejemplo2} una función $y$ tal que
+  \begin{equation*}
+    \int_0^1 y'\varphi'+2 \int_0^1 y \varphi = \int_0^1 f \varphi,
+  \end{equation*}
+  para funciones $\varphi$ «tan buenas como queramos». Queríamos entonces ver qué funciones $y$ podrían hacer que estas integrales tuvieran sentido. Para que la integral $\int_0^1 y \varphi$ tenga sentido basta pedir que $y\in L^2$. Sin embargo, ¿qué le tenemos que pedir a $y$ para que $\int_0^1 y'\varphi'$ tenga sentido? ¿Qué es $y'$? ¿Se puede definir algún tipo de \emph{derivada}?
+
+  Más en general, si paraa una función $\varphi$, denotamos por $\varphi_{x_i}$ a la derivada parcial $\frac{\partial \varphi}{\partial x_i}$, dada una función $u$, queremos hallar una función «derivada débil» (respecto de $x_i$), que podremos denotar como $u_{x_i}$ que cumpla la fórmula de integración por partes. Es decir, $u_{x_i}$ ha de ser tal que
+  \begin{equation*}
+    \int u \varphi_{x_i}=-\int u_{x_i} \varphi,
+  \end{equation*}
+  para cualquier $\varphi$ «suficientemente buena» y de soporte compacto. De nuevo, para que esta integral tenga sentido, es necesario que esta $u_{x_i}\in L^2$. \qed
+\end{ejemplo}
+
+\begin{defn}
+  Sea $u\in L^p(\Omega)$. Se dice que una función $v\in L^p(\Omega)$ para algún $p\geq 1$ es una \emph{derivada débil de $u$ respecto de $x_i$} si 
+  \begin{equation*}
+    \int_\Omega u \varphi_{x_i}= -\int_{\Omega} v \varphi
+  \end{equation*}
+  para toda $\varphi\in C^{\infty}_c(\Omega)$ (función suave con soporte compacto en $\Omega$). Esta $v$ se denota como $u_{x_i}$.
+
+  Más generalmente, si $\alpha=(\alpha_{i_1},\dots,\alpha_{i_r})$, con $1\leq i_1 <\cdots < i_r \leq N$, se dice que una función $v\in L^p(\Omega)$ para algún $p\geq 1$ es una \emph{derivada débil de $u$ respecto del multiíndice $\alpha$}  si
+  \begin{equation*}
+    \int_{\Omega} u D^{\alpha} \varphi = (-1)^{|\alpha|} \int_{\Omega} v \varphi
+  \end{equation*}
+  para toda $\varphi \in C^{\infty}_c(\Omega)$, donde 
+  \begin{equation*}
+    D^{\alpha}=\frac{\partial^{\alpha_{i_1}+\cdots +\alpha_{i_r}}}{\partial x_{i_1}^{\alpha_{i_1}}\cdots \partial x_{i_r}^{\alpha_{i_r}}}.
+  \end{equation*}
+  Esta $v$ se denota como $D^\alpha u$.
+
+  Finalmente, se definen los \emph{espacios de Sobolev} como los conjuntos
+  \begin{equation*}
+    W^{k,p}(\Omega)=\left\{ u \in L^p(\Omega): D^j u \in L^p(\Omega), \text{ para todo } |j|\leq k  \right\}.
+  \end{equation*}
+  En particular nos interesa el espacio
+  \begin{equation*}
+    H^1(\Omega)=W^{1,2}(\Omega)=\left\{ u \in L^2(\Omega) : u_{x_i} \in L^2(\Omega), \text{ para todo } i=1,\dots,n \right\}.
+  \end{equation*}
+\end{defn}
+
+\begin{ejemplo}
+  Sea $f(x)=|x|$ para $x\in (-1,1)$. Definimos
+  \begin{equation*}
+    f'(x)=
+    \begin{cases}
+      1 & x >0, \\
+      -1 & x<0.
+    \end{cases}
+  \end{equation*}
+  Veamos que, en efecto, $f'$ es la derivada débil de $f$. Basta comprobar la fórmula: dada $\varphi \in C^{\infty}_c((0,1))$, tenemos que
+  \begin{align*}
+    \int_{-1}^1 f(x) \varphi'(x) dx & = \int_{-1}^1 |x| \varphi'(x) dx = \int_{-1}^0 -x\varphi'(x) dx + \int_0^1 x \varphi'(x) dx \\ & = \int_{-1}^0 \varphi(x) dx - \int_0^1 \varphi(x) dx = -\int_{-1}^1 f'(x) \varphi(x) dx.
+  \end{align*}
+  \qed
+\end{ejemplo}
+
+  \begin{obs}
+    Veremos que la condición de que las $\varphi\in C_c^{\infty}(\Omega)$ se puede relajar. Podemos considerar simplemente funciones en espacios de Sobolev y tales que «valgan 0 en el borde», más tarde precisaremos qué quiere decir esto.
+  \end{obs}		
+  Cabe preguntarse ahora sobre la unicidad de la derivada débil.
+  \begin{prop}
+    La derivada débil es única (en casi todo punto) si $\Omega$ es acotado.
+  \end{prop}
+  \begin{proof}
+    Supongamos que existen $v_1,v_2 \in L^p(\Omega)$ tales que
+    \begin{equation*}
+      \int_\Omega u D^{\alpha} \varphi = (-1)^{|\alpha|}\int_\Omega v_1 \varphi=(-1)^{|\alpha|}\int_\Omega v_2 \varphi
+    \end{equation*}
+    para toda $\varphi \in C^{\infty}_c(\Omega)$. Entonces
+    \begin{equation*}
+      \int_\Omega (v_1-v_2) \varphi = 0
+    \end{equation*}
+    para toda $\varphi$. Como $v_1,v_2 \in L^p(\Omega)$, $v_1-v_2 \in L^p(\Omega)\subset L^1(\Omega)$, ya que $\Omega$ es acotado. Ahora, por la Proposición~\ref{integralnula}, $(v_1-v_2)(x)=0$ para casi todo $x$, luego $v_1(x)=v_2(x)$ para casi todo $x$.
+  \end{proof}
+
+  \begin{ejemplo}
+    Consideremos la función
+    \begin{equation*}
+      u(x)=
+      \begin{cases}
+      x & x \in (0,1] \\
+      1 & x \in (1,2).
+      \end{cases}
+    \end{equation*}
+    Como la derivada débil es única, en la parte donde la función es derivable, debe coincidir con la derivada «clásica», por tanto, nuestra única candidata a derivada débil es la función
+    \begin{equation*}
+      u'(x)=
+      \begin{cases}
+      1 & x \in (0,1) \\
+      0 & x \in (1,2).
+      \end{cases}
+    \end{equation*}
+    En efecto, esta función es la derivada débil, ya que, dada $\varphi\in C^{\infty}_c ((0,2))$,
+    \begin{equation*}
+      \int_0^2 u(x) \varphi'(x)=\int_0^1 x \varphi'(x) dx + \int_1^2 \varphi'(x)dx = \varphi(1)-\varphi(1)-\int_0^1 \varphi(x) dx = -\int_0^1 \varphi(x) dx.
+    \end{equation*}
+
+  Pero cabe preguntarse entonces qué pasa si cambiamos ligeramente la función por una que no es continua, por ejemplo
+    \begin{equation*}
+      u(x)=
+      \begin{cases}
+      x & x \in (0,1] \\
+      2 & x \in (1,2).
+      \end{cases}
+    \end{equation*}
+    En este caso, dada $\varphi \in C^{\infty}_c( (0,2))$,
+    \begin{equation*}
+      \int_0^2 u(x)\varphi'(x)dx=\int_0^1 x \varphi'(x)dx + \int_1^2 2\varphi'(x)dx=\varphi(1) - \int_0^1 \varphi(x) dx - 2\varphi(1) = -\int_0^1\varphi(x)dx- \varphi(1),
+    \end{equation*}
+    que es, en general, distinto de $-\int_0^1 \varphi(x) dx$.
+
+    ¿Es posible encontrar entonces alguna derivada débil? Es decir, ¿existe alguna $v$ tal que 
+    \begin{equation*}
+      -\int_0^1 v \varphi = -\int_0^1 \varphi - \varphi(1),
+    \end{equation*}
+    para toda $\varphi \in C^{\infty}_c( (0,2))$?
+    La respuesta es que no. Para verlo consideremos la sucesión de funciones $(\varphi_n)$, con 
+    \begin{equation*}
+      \varphi_n (x)=
+      \begin{cases}
+	0 & x \leq -1/n, \\
+      1+nx & x \in (-1/n,0], \\
+    1-nx & x \in (0,1/n], \\
+    0 & x > 1/n.
+      \end{cases}
+    \end{equation*}
+    (Realmente estas funciones no me sirven, porque no son $C^\infty$, pero puedo tomar unas funciones similares, «redondeadas».) Puedo tomar entonces un $n$ lo suficientemente grande de forma que
+    \begin{equation*}
+      -\int_0^1 v \varphi_n + \int_0^1 \varphi_n < \varphi_n(1)=1.
+    \end{equation*}
+
+    En general, este problema lo van a tener todas las funciones que no son continuas, de hecho, veremos la inclusión $H^1(\Omega) \subset C(\Omega)$. \qed
+  \end{ejemplo}
 \end{document}
 
 
