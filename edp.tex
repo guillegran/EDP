@@ -385,7 +385,7 @@ En lo que sigue, haremos bastante uso del siguiente teorema, que no demostraremo
   para cualquier $\varphi$ «suficientemente buena» y de soporte compacto. De nuevo, para que esta integral tenga sentido, es necesario que esta $u_{x_i}\in L^2$. \qed
 \end{ejemplo}
 
-\begin{defn}
+\begin{defn}[Derivada débil y espacios de Sobolev]
   Sea $u\in L^p(\Omega)$. Se dice que una función $v\in L^p(\Omega)$ para algún $p\geq 1$ es una \emph{derivada débil de $u$ respecto de $x_i$} si 
   \begin{equation*}
     \int_\Omega u \varphi_{x_i}= -\int_{\Omega} v \varphi
@@ -503,8 +503,175 @@ En lo que sigue, haremos bastante uso del siguiente teorema, que no demostraremo
       -\int_0^1 v \varphi_n + \int_0^1 \varphi_n < \varphi_n(1)=1.
     \end{equation*}
 
-    En general, este problema lo van a tener todas las funciones que no son continuas, de hecho, veremos la inclusión $H^1(\Omega) \subset C(\Omega)$. \qed
+    En general, este problema lo van a tener todas las funciones que no son continuas, de hecho, veremos la inclusión $H^1(\Omega) \subset C^0(\Omega)$.\qed
   \end{ejemplo}
+
+  \begin{ejemplo}
+    Si aceptamos que $u$ pueda ser continua con valores infinitos, entonces sí que puede aceptar derivada débil en ciertos casos. Por ejemplo, pensemos para qué valores $\alpha>0$ puede aceptar derivada débil la función
+    \begin{equation*}
+      u(x)=\frac{1}{|x|^{\alpha}},
+    \end{equation*}
+    en $B_1(0)\subset \RR^n$. Más concretamente, buscamos qué relaciones tienen que cumplir $\alpha$, $n$ y $p$ para que $u\in W^{1,p}(B_1(0))$.
+
+    En primer lugar, queremos que $u\in L^p(B_1(0))$, luego hemos de calcular la integral
+    \begin{equation*}
+      \int_{B_1(0)}\frac{1}{|x|^{\alpha p}}dx = \lim_{\eps \rightarrow 0} \int_{B_1(0)-B_\eps(0)}\frac{1}{|x|^{\alpha p}}dx,
+    \end{equation*}
+    pasando a coordenadas polares
+    \begin{equation*}
+      \int_{B_1(0)}\frac{1}{|x|^{\alpha p}}dx=\cte \cdot \lim_{\eps\rightarrow 0} \int_\eps^1 \frac{1}{r^{\alpha p}}r^{n-1} dr = \cte (1-\lim_{\eps \rightarrow 0} \eps^{n-\alpha p}).
+    \end{equation*}
+    Esta integral es finita sólo si $n-\alpha p >0$.
+
+    Ahora, la única candidata posible a derivada débil debe coincidir con la derivada «clásica» en los puntos donde ésta esté bien definida, de modo que 
+    \begin{equation*}
+      u_{x_i}=-\frac{\alpha}{|x|^{\alpha+1}} \frac{2 x_i}{2 |x|}=- \frac{\alpha x_i}{|x|^{\alpha+1}}.
+    \end{equation*}
+    Si integramos con una función $C^{\infty}_c(B_1(0))$, 
+    \begin{equation*}
+      \int_{B_1(0)-B_{\eps}(0)}u \varphi_{x_i} = \int_{\partial B_1(0)} u \varphi \nu_1+ \int_{\partial B_\eps(0)} u \varphi \nu_2 - \int_{B_1(0)-B_{\eps}(0)} u_{x_i} \varphi =\int_{\partial B_\eps(0)} u \varphi \nu_2 - \int_{B_1(0)-B_{\eps}(0)} u_{x_i} \varphi ,
+    \end{equation*}
+    donde la integral en $\partial B_1(0)$ se anula porque $\varphi$ tiene soporte compacto y $\nu_1$ y $\nu_2$ son vectores normales. Nos interesa saber entonces para qué valores de $\alpha$ podemos asegurar que 
+    \begin{equation*}
+      \lim_{\eps \rightarrow 0}\int_{\partial B_{\eps}(0)} u \varphi \nu_2 =0,
+    \end{equation*}
+    pues será en esos casos en los que podremos asegurar que se cumple
+    \begin{equation*}
+      \int_{B_1(0)} u \varphi_{x_i} = -\int_{B_1(0)} u_{x_i} \varphi
+    \end{equation*}
+    y que $u_{x_i}$ es la derivada débil de $u$. Para ello, basta acotar
+    \begin{equation*}
+      \left| \int_{\partial B_{\eps}(0)} u \varphi \nu_2\right| \leq \norm{\varphi}_{\infty} \eps^{-\alpha} |\partial B_{\eps}(0)| \leq \cte \eps^{n-1-\alpha},
+    \end{equation*}
+    ya que el área de una $n-1$-esfera de radio $\eps$ es proporcional a $\eps^{n-1}$. Para que el límite que buscamos pueda ser cero, es necesario que el exponente $n-1-\alpha >0$.
+    
+    Finalmente, si, además de la existencia de la derivada débil queremos asegurar que esta derivada está en $L^p(B_{1}(0))$, podemos pensar para qué valores de $\alpha$ estará acotada la norma-$p$ del gradiente $\nabla u=(u_{x_1},\dots,u_{x_n})$. Nótese que
+    \begin{equation*}
+      |\nabla u| = \frac{|\alpha|}{|x|^{\alpha+1}}.
+    \end{equation*}
+    Por tanto
+    \begin{equation*}
+      \int_{B_1(0)} |\nabla u|^p = \cte \int\frac{1}{|x|^{p(\alpha+1)}}.
+    \end{equation*}
+    Por un razonamiento análogo al que hemos hecho con la integral de $1/|x|^{\alpha p}$, tenemos que esta integral es finita sólo si $n-p(\alpha+1)>0$.
+
+    Tenemos entonces las siguientes relaciones necesarias para que $u\in W^{1,p}(B_1(0))$:
+    \begin{align*}
+      n-p(\alpha+1)>0 \\
+      n-p\alpha>0 \\
+      n-1-\alpha>0.
+    \end{align*}
+    Claramente, si se cumple la primera se cumplen las otras dos, luego la única condición fundamental para $\alpha$ es
+    \begin{equation*}
+      n-p(\alpha+1)>0.
+    \end{equation*}
+  \end{ejemplo}
+  \begin{prop}[Propiedades de la derivada débil]
+    Sean $u,v \in W^{k,p}(\Omega)$. Supongamos que $\alpha$ y $\beta$ son multiíndices con $|\alpha|,|\beta| \leq k$. Entonces, se cumplen las siguientes afirmaciones
+    \begin{enumerate}
+      \item $D^\alpha u \in W^{k-\alpha,p}(\Omega)$,
+      \item $D^{\alpha+\beta}(u):=D^{\alpha}D^{\beta}(u)=D^{\beta}D^{\alpha}u$,
+      \item  $D^{\alpha}(\lambda u + \mu v)=\lambda D^{\alpha} u + \mu D^\alpha v$ (linealidad),
+      \item para cada $\psi \in C^{\infty}_c(\Omega)$ el producto $\psi u$ satisface la regla de Leibniz y
+      \item si $V\subset \Omega$, entonces $W^{k,p}(\Omega)\subset W^{k,p}(V)$.
+    \end{enumerate}
+  \end{prop}
+  \begin{proof}\leavevmode
+    \begin{enumerate}
+      \item Inmediato.
+      \item Basta iterar la fórmula de integración por partes:
+	\begin{align*}
+	  \int_\Omega D^\alpha D^\beta u \varphi & = (-1)^{|\alpha|} \int_\Omega D^\beta u D^\alpha \varphi = (-1)^{|\alpha|} (-1)^{|\beta|} \int_\Omega u D^\beta D^\alpha \varphi \\ & = (-1)^{|\alpha|} (-1)^{|\beta|} \int_\Omega u  D^\alpha D^\beta \varphi= (-1)^{|\beta|} \int_\Omega D^\alpha u   D^\beta \varphi \\ &= \int_\Omega  D^\beta D^\alpha u  \varphi. 
+	\end{align*}
+      \item Inmediato.
+      \item Sea $\varphi \in C^\infty_c(\Omega)$. Entonces, si $(\psi u)_{x_i}$ es una derivada débil de $\psi u$, debe cumplir
+	\begin{equation*}
+	  \int_\Omega (\psi u)_{x_i} \varphi =- \int_\Omega (\psi u) \varphi_{x_i}=-\int_\Omega u \left[ (\psi \varphi)_{x_i} - \psi_{x_i}\varphi \right]= \int_\Omega (u_{x_i}\psi+ u \psi_{x_i}) \varphi.
+	\end{equation*}
+      \item Basta calcular
+	\begin{equation*}
+	  \norm{D^\alpha u}^p_{L^p(V)} = \int_V |D^\alpha u|^p \leq \int_\Omega |D^{\alpha} u|^p = \norm{D^\alpha u}^p_{L^p(\Omega)}.
+	\end{equation*}
+    \end{enumerate}
+  \end{proof}
+  \paragraph{Norma en los espacios de Sobolev}
+  A la vista de estas propiedades, podemos definir una norma en los espacios $W^{k,p}(\Omega)$:
+  \begin{equation*}
+    \norm{u}_{W^{k,p}(\Omega)}=\left( \norm{u}_p^p + \sum_{|j|\leq |k|}\norm{D^j u}^p_p \right)^{1/p}.
+  \end{equation*}
+  Además, en $H^k(\Omega):=W^{k,2}(\Omega)$, podemos definir el producto escalar
+  \begin{equation*}
+    \esc{u,v}_{H^k(\Omega)}=\sum_{|\alpha|\leq k} \esc{D^\alpha u, D^\alpha v}_{L^2(\Omega)},   
+  \end{equation*}
+  en particular
+  \begin{equation*}
+    \esc{u,v}_{H^1(\Omega)}=\esc{u,v}_{L^2(\Omega)}+\esc{\nabla u, \nabla v}_{L^2(\Omega)}.
+  \end{equation*}
+
+  Para concluir la sección vamos a ver que, además de normados, los espacios de Sobolev son completos.
+  \begin{prop}
+    $W^{k,p}(\Omega)$ es un espacio de Banach.
+  \end{prop}
+  \begin{proof}
+    Supongamos que $(f_n)$ es una sucesión de Cauchy en $W^{k,p}(\Omega)$. En particular las sucesiones $(f_n)$ y $(D^\alpha f_n)$ son de Cauchy en $L^p$ y, como $L^p$ es completo, convergen a unas ciertas funciones $f$ y $f_\alpha$, respectivamente, en $L^p$. Falta ver entonces que, de hecho $f_\alpha=D^{\alpha} f$.
+
+    Por converger $(f_n)$ en el sentido de $L^p$, existe una subsucesión $(f_m)$ de $(f_n)$ tal que $f_m$ converge a $f$ puntualmente para casi todo $x$. Además, dada $\varphi\in C^\infty_c (\Omega)$,
+    \begin{equation*}
+      \left| \int_\Omega f_m \varphi  - \int_\Omega f \varphi \right| \leq \int_\Omega |f_m-f||\varphi| \leq \norm{f_m-f}_p \norm{\varphi}_q,
+    \end{equation*}
+    que converge a $0$ con $m\rightarrow \infty$. Por tanto,
+    \begin{equation*}
+    \int_{\Omega} f \varphi = \lim_{m\rightarrow \infty} \int_\Omega f_m \varphi.
+  \end{equation*}
+  Por un cálculo análogo, podemos ver que
+  \begin{equation*}
+    \int_{\Omega} f_\alpha \varphi = \lim_{m\rightarrow \infty} \int_\Omega D^\alpha f_m \varphi.
+  \end{equation*}
+  
+  Finalmente, tenemos que
+  \begin{equation*}
+    \int_\Omega f D^{\alpha} \varphi = \lim_{m\rightarrow \infty} \int_\Omega f_m D^{\alpha}\varphi = \lim_{m\rightarrow \infty} \left( (-1)^{|\alpha|} \int_\Omega D^\alpha f_m \varphi \right)= (-1)^{|\alpha|}\int_{\Omega} f_\alpha \varphi.
+  \end{equation*}
+  Concluimos que
+  \begin{equation*}
+    \int_\Omega D^\alpha f \varphi = (-1)^{|\alpha|} \int_{\Omega} f D^\alpha \varphi = \int_\Omega f_\alpha \varphi,
+  \end{equation*}
+  luego $f_\alpha = D^\alpha f$.
+  \end{proof}
+
+  \section{Operador de traza}
+  Volviendo al caso del ejemplo~\ref{ejemplo1}, nos encontrábamos con un problema de contorno. Es decir, queríamos hallar una función que fuera una solución (débil) de nuestra ecuación diferencial, pero además debía tomar unos valores concretos en el borde del dominio en el que estaba definida. Sin embargo, en general hemos visto que las soluciones débiles, para que estén bien definidas, van a pertenecer a espacios de Sobolev y en general pueden no ser continuas en un conjunto de medida cero. Entonces, como el borde de hecho tiene medida cero, no tiene mucho sentido preguntarse qué supone que la función tome un determinado valor en el borde, ya que en principio podría ser ese o cualquier otro. Es decir, parece que la condición de contorno no añade nada.
+
+  En esta sección precisamente de lo que vamos a tratar es de «darle sentido al borde». Concretamente, vamos a encontrar un operador que tome posibles soluciones débiles y las mande a funciones en el borde y que en el caso de las funciones continuas hasta el borde sea simplemente la restricción. Es decir, buscamos un operador $T:W^{k,p}(\Omega) \rightarrow L^p(\partial \Omega)$ tal que el siguiente diagrama conmuta
+  \begin{center}
+    \begin{tikzcd}
+      W^{k,p}(\Omega) \arrow{r}{T} & L^p(\partial \Omega)      \\ 
+      C(\bar \Omega) \arrow[hook]{u} \arrow{ru}, &
+    \end{tikzcd}
+  \end{center}
+  donde $C(\bar\Omega)\rightarrow L^p(\partial \Omega)$ es simplemente la aplicación restricción $u\mapsto u |_{\partial \Omega}$.
+
+  Para la construcción de este operador, voy a definirlo primero en el caso de las funciones continuas hasta el borde, simplemente
+  \begin{equation*}
+    Tu = u|_{\partial \Omega},
+  \end{equation*}
+  y luego voy a construirmelo para el resto de funciones $u$ mediante una sucesión $(u_m)$ de funciones continuas hasta el borde tal que $u_m \rightarrow u$. Definiré entonces 
+  \begin{equation*}
+    Tu=\lim_{m\rightarrow \infty} Tu_m.
+  \end{equation*}
+  Para hacer esta aproximación correctamente vamos a necesitar un teorema de densidad, cuya demostración omitiremos, pero puede leerse en [Evans]. %referencia
+
+  \begin{thm}[Teorema de densidad]
+    Si $\Omega$ es acotado, $\partial \Omega$ es de clase $C^1$ y $u\in W^{k,p}(\Omega)$. Entonces existe $u_m \in C^{\infty}(\bar\Omega)$ tal que $u_m \rightarrow u$ en la norma de $W^{k,p}(\Omega)$. Además, si $u\in W^{k,p}(\Omega) \cap C(\bar\Omega)$, la convergencia es uniforme.
+  \end{thm}
+
+  \begin{thm}[Teorema de trazas]
+    Supongamos que $\partial \Omega$ es de clase $C^1$. Entonces existe un operador (llamado \emph{operador de traza}) $T:W^{1,p}(\Omega)\rightarrow L^p(\partial \Omega)$ continuo y acotado tal que
+    \begin{enumerate}
+      \item si $u\in C(\bar\Omega)$, entonces $Tu=u|_{\partial \Omega}$ y
+      \item $\norm{Tu}_{L^p(\partial\Omega)} \leq \cte \norm{u}_{W^{1,p}(\Omega)}$.
+    \end{enumerate}
+  \end{thm}
 \end{document}
 
 

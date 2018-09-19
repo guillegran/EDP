@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.9.5)  19 SEP 2018 13:00
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.9.5)  19 SEP 2018 19:37
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1136,29 +1136,48 @@ OML/cmm/m/it/12 x\OT1/cmr/m/n/12 )\OML/cmm/m/it/12 dx \OMS/cmsy/m/n/12 ^^@ \OML
 LaTeX Info: Redefining \. on input line 489.
 LaTeX Info: Redefining \% on input line 489.
 [12]
-LaTeX Info: Redefining \. on input line 508.
-LaTeX Info: Redefining \% on input line 508.
- [13]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 508.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 508.
+Overfull \hbox (32.68791pt too wide) detected at line 533
+[][] \OML/cmm/m/it/12 u'[] \OT1/cmr/m/n/12 = [][] \OML/cmm/m/it/12 u'^^W[] \OT1
+/cmr/m/n/12 + [][] \OML/cmm/m/it/12 u'^^W[] \OMS/cmsy/m/n/12 ^^@ [][] \OML/cmm/
+m/it/12 u[]' \OT1/cmr/m/n/12 = [][] \OML/cmm/m/it/12 u'^^W[] \OMS/cmsy/m/n/12 ^
+^@ [][] \OML/cmm/m/it/12 u[]';
+ []
+
+LaTeX Info: Redefining \. on input line 535.
+LaTeX Info: Redefining \% on input line 535.
+[13]
+LaTeX Info: Redefining \. on input line 581.
+LaTeX Info: Redefining \% on input line 581.
+ [14]
+LaTeX Info: Redefining \. on input line 621.
+LaTeX Info: Redefining \% on input line 621.
+ [15]
+LaTeX Info: Redefining \. on input line 657.
+LaTeX Info: Redefining \% on input line 657.
+ [16]
+LaTeX Info: Redefining \. on input line 675.
+LaTeX Info: Redefining \% on input line 675.
+ [17]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 675.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 675.
  (./edp.aux
 LaTeX Info: Redefining \. on input line 20.
 LaTeX Info: Redefining \% on input line 20.
 )
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 508.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 508.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 675.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 675.
 Package rerunfilecheck Info: File `edp.out' has not changed.
-(rerunfilecheck)             Checksum: F61BF3E56A37E0BC2BC323D7A6E8FFF3;226.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 508.
+(rerunfilecheck)             Checksum: 0DEB4E6237CA5BB47CEDA51DE6FEA4CE;289.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 675.
  ) 
 Here is how much of TeX's memory you used:
- 19518 strings out of 494850
- 371175 string characters out of 6178025
+ 19662 strings out of 494850
+ 374482 string characters out of 6178025
  442252 words of memory out of 5000000
- 22434 multiletter control sequences out of 15000+600000
+ 22555 multiletter control sequences out of 15000+600000
  14754 words of font info for 57 fonts, out of 8000000 for 9000
  62 hyphenation exceptions out of 8191
- 56i,8n,84p,545b,474s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 56i,14n,84p,809b,939s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></us
 r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/shar
 e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/share/texl
@@ -1173,10 +1192,10 @@ m/cmsl12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/
 share/texlive/texmf-dist/fonts/type1/public/amsfonts/latxfont/lasy10.pfb></usr/
 share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on edp.pdf (13 pages, 191395 bytes).
+Output written on edp.pdf (17 pages, 213854 bytes).
 PDF statistics:
- 180 PDF objects out of 1000 (max. 8388607)
- 148 compressed objects within 2 object streams
- 37 named destinations out of 1000 (max. 500000)
- 37 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 223 PDF objects out of 1000 (max. 8388607)
+ 187 compressed objects within 2 object streams
+ 60 named destinations out of 1000 (max. 500000)
+ 45 words of extra memory for PDF output out of 10000 (max. 10000000)
 
